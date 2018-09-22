@@ -1,0 +1,86 @@
+
+For SETUP refer "SetUpinstructions.docx"
+
+
+
+NOTE :  AngularJS is for building CLIENT-side web applications
+        NodeJs is used to build SERVER-side applications
+        expressJs is a NodeJs framework to build websites / web services using principles and approaches of node.js.
+
+
+
+EVENT Loop in NodeJs    (Refer Screenshot)
+
+
+
+CALLBACKs
+callbacks are used for async code execution.
+
+
+MODULES
+.. Builtin modules   (fs, http,   etc...)
+.. Project modules   (user created)
+.. Public  modules   (npm)
+
+.. These are exported and used in another file
+   var modulename = require('./module_to_be_exported')      // "require" is similar to import
+
+
+
+EVENT EMITTER
+.. Publisher emits EVENT and Subscriber subscribes for EVENT
+.. Builtin EVENTEmitter
+.. Project modules/User Created
+
+
+
+STREAMS
+. For Small files read
+.. "pipe" to other when read from another
+
+. For Large files , read in chunks
+.. "readable" and "end" are builtin for readstream
+
+. For Syncronous file read ie till not read the file it will not go to next line
+.. This is referred as blocking code execution
+.. fs (FileSystem)
+.. fs.readFileSync            // readFileSyncronously
+.. fs.statSync                // stats of file like size, .... etc..
+
+.     Asyncronous file read
+.. fs.stat
+
+
+
+PROCESS MODULE
+.. process.pid
+.. process.cwd()
+.. process.version     .... etc ...
+
+
+
+OS MODULE
+.. os.hostname()
+.. os.totalmem()
+.. os.freemem()      ..... etc ....
+
+
+
+HTTP SERVER
+
+
+Server request using EXPRESS
+
+
+.. Routing
+... route files added under routes folder
+
+.. Dynamic routing
+... using PARAMS    /:id
+... using QUERY     /?id=112&name=ra20024024                    // NOTE : use of ?
+
+.. SET NODE_ENV="value"   in   windows
+
+
+
+ 
