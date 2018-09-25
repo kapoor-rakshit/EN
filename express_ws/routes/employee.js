@@ -12,6 +12,10 @@ router.get("/login/", function(request, response){
 	response.send("EMPLOYEE LOGIN page.")
 });
 
+router.get("/home", function(request, response){
+	response.redirect("/");                           // REDIRECT to "/" function(){}
+});
+
 
 module.exports = router;
 

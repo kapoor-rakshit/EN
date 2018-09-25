@@ -90,7 +90,7 @@ HTTP SERVER
 
 .. HTML rendered VIEW
 
-     INDEX.js  ---> routes/COMPONENT.js  ---> templates/VIEW.jade
+     INDEX.js  --->  routes/COMPONENT.js  --->  templates/VIEW.jade
 
 ...  Using JADE template VIEW engine (now known as PUG)  ,  install using   "npm install jade"
 ...  define 'view engine' , 'views'    etc...
@@ -106,7 +106,35 @@ HTTP SERVER
 
 
 .. STYLING
-...  
+...  use 'express.static()'
 
+
+
+
+.. COOKIES and SESSIONS
+...  cookies are identifiers to tell server that request is coming from a client that is earlier encountered too.
+     This is important as http is stateless protocol.  It is stored at CLIENT side.
+
+...  sessions are duration of activity tracked by server. stored at SERVER side.
+
+...  "npm install cookie-parser"
+     "npm install express-session"
+
+...  check status on storage tab of BROWSERs INSPECTOR window.
+
+
+
+
+.. APP.LOCALS
+.. // This provides value to variables in all .jade files coz inited in index.js with app.locals
+
+...  app.locals.VARNAME = {var1 : val1 , var2 : val2}
+...  app.locals.VARNAME = "VALUE"
+
+
+
+.. ERROR HANDLING
+...  If error not handled in code , ERROR will be prompted at CLIENT side.
+...  define functions for handling error  and  make   app.use(funcname);
 
  

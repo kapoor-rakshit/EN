@@ -5,6 +5,10 @@ html(lang="en")
   title Issuetracker
  body
   fieldset
+  
+   p #{NAME.github}
+   p #{NAME.codechef}
+
    form(method="post" action="http://127.0.0.1:5000/data")
     label(for="descid") Description
     input(type="text" id="descid" name="desc")

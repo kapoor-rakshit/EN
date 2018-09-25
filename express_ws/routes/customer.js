@@ -16,6 +16,10 @@ router.get("/*", function(request, response){       // If all above fail , match
 	response.send("404 : Page not Found");
 });
 
+router.get("/home", function(request, response){
+	response.redirect("/");                           // REDIRECT to "/" function(){}
+});
+
 
 module.exports = router;                           // export
 
