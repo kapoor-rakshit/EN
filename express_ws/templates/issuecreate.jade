@@ -1,0 +1,31 @@
+
+doctype
+html(lang="en")
+ head
+  title Issuetracker
+ body
+  fieldset
+   form(method="post" action="http://127.0.0.1:5000/data")
+    label(for="descid") Description
+    input(type="text" id="descid" name="desc")
+    br
+    label(for="sevid") Severity
+    select(id="sevid" name="severity")
+     option Minor
+     option Major
+     option Critical
+    br
+    label(for="statid") Status
+    select(id="statid" name="status")
+     option Open
+     option In Progress
+     option Closed
+    br
+    label(for="datecrid") Date Created
+    input(type="date" id="datecrid" name="datecr")
+    br
+    label(for="datersid") Date Resolved / Expected
+    input(type="date" id="datersid" name="daters")
+    br
+    br
+    input(type="submit" value="SUBMIT")

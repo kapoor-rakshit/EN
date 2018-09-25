@@ -16,3 +16,5 @@ else{
 modulevar.chkfunc(-55,-9,callbackfunc);
 
 console.log(modulevar.varnaam);
+
+console.log(modulevar.tpstr);

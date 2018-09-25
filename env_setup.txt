@@ -88,4 +88,25 @@ HTTP SERVER
 
 
 
+.. HTML rendered VIEW
+
+     INDEX.js  ---> routes/COMPONENT.js  ---> templates/VIEW.jade
+
+...  Using JADE template VIEW engine (now known as PUG)  ,  install using   "npm install jade"
+...  define 'view engine' , 'views'    etc...
+...  .jade file uses indentation and use   '|'   for breaking code into mulltiple lines
+...   pass data from .js to .jade using  #{var}  in  .jade   and   .render("", {var : value}) in routes/.js
+
+
+.. BODY-PARSER  for  working with FORM data
+...  "npm install body-parser"
+...  set 'views' , 'view engine'
+...  use 'bodyParser.json()' , 'bodyParser.urlencoded({extended : false})'
+...  'router.post'  for  submitting form data    NOTE : This address must be same as form action attribute value as specified in .jade
+
+
+.. STYLING
+...  
+
+
  
