@@ -17,6 +17,24 @@ CALLBACKs
 callbacks are used for async code execution.
 
 
+
+Async / Await
+REFERENCE : https://www.geeksforgeeks.org/using-async-await-in-node-js/
+------------------------------------------------------------------------
+With Node v8, the async/await feature was officially rolled out by the Node to deal with Promises and function chaining. The functions need not to be chained one after another, simply await the function that returns the Promise. But the function async needs to be declared before awaiting a function returning a Promise. The code now looks like below.
+
+Example:
+async function fun1(req, res){
+  let response = await request.get('http://localhost:3000');
+    if (response.err) { console.log('error');}
+    else { console.log('fetched response');
+}
+
+The code above basically asks the javascript engine running the code to wait for the request.get() function to complete before moving on to the next line to execute it. The request.get() function returns a Promise for which user will await.
+Code writing and understanding becomes easy with async/await.
+
+
+
 MODULES
 .. Builtin modules   (fs, http,   etc...)
 .. Project modules   (user created)
