@@ -16,12 +16,24 @@ EVENT Loop in NodeJs    (Refer Screenshot)
 CALLBACKs
 callbacks are used for async code execution.
 
+PROMISEs
+It is fair to say promises are just syntactic sugar.
+Everything you can do with promises you can do with callbacks.
+The deep reason why promises are often better is that they're more composeable, 
+which roughly means that combining multiple promises "just works", while combining multiple callbacks often doesn't.
+For instance, it's trivial to assign a promise to a variable and attach additional handlers to it later on,
+or even attach a handler to a large group of promises that gets executed only after all the promises resolve.
+While you can sort of emulate these things with callbacks, it takes a lot more code, is very hard to do correctly,
+and the end result is usually far less maintainable.
+
 
 
 Async / Await
 REFERENCE : https://www.geeksforgeeks.org/using-async-await-in-node-js/
 ------------------------------------------------------------------------
-With Node v8, the async/await feature was officially rolled out by the Node to deal with Promises and function chaining. The functions need not to be chained one after another, simply await the function that returns the Promise. But the function async needs to be declared before awaiting a function returning a Promise. The code now looks like below.
+With Node v8, the async/await feature was officially rolled out by the Node to deal with Promises and function chaining.
+The functions need not to be chained one after another, simply await the function that returns the Promise.
+But the function async needs to be declared before awaiting a function returning a Promise.
 
 Example:
 async function fun1(req, res){
@@ -30,7 +42,9 @@ async function fun1(req, res){
     else { console.log('fetched response');
 }
 
-The code above basically asks the javascript engine running the code to wait for the request.get() function to complete before moving on to the next line to execute it. The request.get() function returns a Promise for which user will await.
+The code above basically asks the javascript engine running the code to wait for the request.get() function to complete
+before moving on to the next line to execute it.
+The request.get() function returns a Promise for which user will await.
 Code writing and understanding becomes easy with async/await.
 
 
