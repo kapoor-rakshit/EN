@@ -1,22 +1,41 @@
 
 For SETUP refer "SetUpinstructions.docx"
+----------------------------------------
 
 
 
 NOTE :  AngularJS is for building CLIENT-side web applications
-        NodeJs is used to build SERVER-side applications
+----    NodeJs is used to build SERVER-side applications
         expressJs is a NodeJs framework to build websites / web services using principles and approaches of node.js.
+        
+        
+        
+NodeJs  vs  Java
+-----------------
+REFERENCE : https://www.infoworld.com/article/2883328/node-js/java-vs-nodejs-an-epic-battle-for-developer-mindshare.html
 
+ As JavaScript finds a home on the server and in the browser (Client) as well.
+ Use of JavaScript for both sides of the client/server than to write something in Java and again in JavaScript.
 
+ Complicated build tools like Ant and Maven in Java programming.
+ which involves switching from Java to XML.
+ 
+ Many web services and databases return data in JSON, a natural part of JavaScript.
+ JSON parsers are available as Java libraries. But in JavaScript we don’t need libraries for same.
+ 
+ 
 
 EVENT Loop in NodeJs    (Refer Screenshot)
+-------------------------------------------
 
 
 
 CALLBACKs
+---------
 callbacks are used for async code execution.
 
 PROMISEs
+---------
 It is fair to say promises are just syntactic sugar.
 Everything you can do with promises you can do with callbacks.
 The deep reason why promises are often better is that they're more composeable, 
@@ -27,6 +46,7 @@ While you can sort of emulate these things with callbacks, it takes a lot more c
 and the end result is usually far less maintainable.
 
 OBSERVABLEs
+------------
 Both Promises and Observables will help us work with the asynchronous functionalities in JavaScript.
 They are very similar in many cases, however, there are still some differences between the two as well,
 promises are values that will resolve in asynchronous ways like http calls. 
@@ -50,6 +70,7 @@ Observable
 
 
 Async / Await
+--------------
 REFERENCE : https://www.geeksforgeeks.org/using-async-await-in-node-js/
 ------------------------------------------------------------------------
 With Node v8, the async/await feature was officially rolled out by the Node to deal with Promises and function chaining.
@@ -71,23 +92,57 @@ Code writing and understanding becomes easy with async/await.
 
 
 MODULES
+--------
 .. Builtin modules   (fs, http,   etc...)
 .. Project modules   (user created)
 .. Public  modules   (npm)
 
 .. These are exported and used in another file
    var modulename = require('./module_to_be_exported')      // "require" is similar to import
+   
+
+ CLUSTER module
+ ================
+ REFERENCE       : https://medium.com/tech-tajawal/clustering-in-nodejs-utilizing-multiple-processor-cores-75d78aeb0f4f
+ for code example
+ 
+ A single instance of Node.js runs in a single thread. 
+ To take advantage of multi-core systems, the user will want to launch a cluster of Node.js processes to handle the load.
+    eg:- cluster.fork();
+ 
+ “Cluster” was introduced to scale an application execution on multiple processor cores by creating worker processes.
+ Worker processes share a single port, therefore, requests are routed through a shared port.
+ 
+ In case any spawned process dies in an unplanned or planned manner
+ then a new process can be started instantly as a replacement to killed one without any delay or manual interruption.
+ 
+ All available cores can be utilized for application execution, increases application performance.
+ 
+ Resources wastage reduced tremendously by using maximum capacity of the processor.
+ 
+ Easy to implement since all work is managed by NodeJs module and no need to introduce an additional dependency.
+ 
+ 
+ Worker_Threads module
+ ======================
+ The worker_threads module enables the use of threads with message channels between them. 
+ Workers (threads) are useful for performing CPU-intensive JavaScript operations.
+ They will not help much with I/O-intensive work.
+ Node.js’s built-in asynchronous I/O operations are more efficient than Workers can be.
+
 
 
 
 EVENT EMITTER
-.. Publisher emits EVENT and Subscriber subscribes for EVENT
+--------------
+.. Publisher emits EVENT using "emit" and Subscriber subscribes for EVENT using "on"
 .. Builtin EVENTEmitter
 .. Project modules/User Created
 
 
 
 STREAMS
+---------
 Stream are instances of event emitter. These can be read, write, OR both
 . For Small files read
 .. "pipe" to other when read from another
@@ -107,6 +162,7 @@ Stream are instances of event emitter. These can be read, write, OR both
 
 
 PROCESS MODULE
+---------------
 .. process.pid
 .. process.cwd()
 .. process.version     .... etc ...
@@ -114,6 +170,7 @@ PROCESS MODULE
 
 
 OS MODULE
+----------
 .. os.hostname()
 .. os.totalmem()
 .. os.freemem()      ..... etc ....
@@ -121,6 +178,7 @@ OS MODULE
 
 
 HTTP SERVER
+------------
 . Server request using NODE
 
 
