@@ -26,6 +26,27 @@ or even attach a handler to a large group of promises that gets executed only af
 While you can sort of emulate these things with callbacks, it takes a lot more code, is very hard to do correctly,
 and the end result is usually far less maintainable.
 
+OBSERVABLEs
+Both Promises and Observables will help us work with the asynchronous functionalities in JavaScript.
+They are very similar in many cases, however, there are still some differences between the two as well,
+promises are values that will resolve in asynchronous ways like http calls. 
+On the other hand, observables deal with a sequence of asynchronous events.
+
+The main differences between them are listed below:
+Promise
+--------
+ having one pipeline
+ usually only use with async data return
+ not easy to cancel
+
+Observable
+-----------
+ are cancellable
+ are retriable by nature such as retry and retryWhen
+ stream data in multiple pipelines
+ having array-like operations like map, filter, forEach.. etc
+ can be created from other sources like events
+ they are functions, which could be subscribed later on
 
 
 Async / Await
