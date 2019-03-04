@@ -90,6 +90,300 @@ The request.get() function returns a Promise for which user will await.
 Code writing and understanding becomes easy with async/await.
 
 
+REFERENCE : https://medium.com/velotio-perspectives/understanding-node-js-async-flows-parallel-serial-waterfall-and-queues-6f9c4badbc17
+----------------------------------------------------------------------------------------------------------------------------------------
+1. Async.parallel
+------------------
+When we have to run multiple tasks independent of each other without waiting until the previous task has completed,
+parallel comes into the picture.
+
+  Syntax   : async.parallel(tasks, callback)
+> tasks    : A collection of functions to run. It can be an array, an object or any iterable.
+> callback : This is the callback where all the task results are passed and executed once all the task execution has completed.
+
+In case an error is passed to a function’s callback, the main callback is immediately called with the error.
+Although parallel is about starting I/O tasks in parallel, 
+it’s not about parallel execution since Javascript is single-threaded.
+
+Example:
+// 1
+async.parallel([
+  function(callback) {
+    setTimeout(function() {
+      console.log('Task One');
+      callback(null, 1);
+    }, 200);
+  },
+  function(callback) {
+    setTimeout(function() {
+      console.log('Task Two');
+      callback(null, 2);
+    }, 100);
+  }
+],
+function(err, results) {      // the results array will equal [1, 2] even though
+                              // the second function had a shorter timeout.
+  console.log(results);
+});
+
+// 2 , an example using an object instead of an array
+async.parallel({
+  task1: function(callback) {
+    setTimeout(function() {
+      console.log('Task One');
+      callback(null, 1);
+    }, 200);
+  },
+  task2: function(callback) {
+    setTimeout(function() {
+      console.log('Task Two');
+      callback(null, 2);
+    }, 100);
+    }
+}, function(err, results) {      // results now equals to: { task1: 1, task2: 2 }
+  console.log(results);
+});
+
+
+2. Async.series
+----------------
+When we have to run multiple tasks which depend on the output of the previous task, series comes to our rescue.
+
+  Syntax : async.series(tasks, callback)
+  
+The callback function receives an array of result objects when all the tasks have completed.
+If an error is encountered in any of the tasks, 
+no more functions are run but the final callback is called with the error value.
+
+Example:
+// 1
+async.series([
+  function(callback) {
+    console.log('one');
+    callback(null, 1);
+  },
+  function(callback) {
+    console.log('two');
+    callback(null, 2);
+  },
+  function(callback) {
+    console.log('three');
+    callback(null, 3);
+  }
+],
+function(err, results) {              // results is now equal to [1, 2, 3]
+  console.log(result);
+});
+
+// 2
+async.series({
+  1: function(callback) {
+    setTimeout(function() {
+      console.log('Task 1');
+      callback(null, 'one');
+    }, 200);
+  },
+  2: function(callback) {
+    setTimeout(function() {
+      console.log('Task 2');
+      callback(null, 'two');
+    }, 300);
+  },
+  3: function(callback) {
+    setTimeout(function() {
+      console.log('Task 3');
+      callback(null, 'three');
+    }, 100);
+  }
+},
+function(err, results) {             // results is now equal to: { 1: 'one', 2: 'two', 3:'three' }
+  console.log(results);
+});
+
+
+3. Async.waterfall
+-------------------
+When we have to run multiple tasks which depend on the output of the previous task, Waterfall can be helpful.
+The only difference between Waterfall and Series async utility is that 
+the final callback in series receives an array of results of all the task whereas, 
+in Waterfall, the result object of the final task is received by the final callback.
+
+  Syntax : async.waterfall(tasks, callback)
+  
+It will run one function at a time and pass the result of the previous function to the next one.
+
+Example:
+// 1
+async.waterfall([
+  function(callback) {
+    callback(null, 'Task 1', 'Task 2');
+  },
+  function(arg1, arg2, callback) {
+                                                  // arg1 now equals 'Task 1' and arg2 now equals 'Task 2'
+    let arg3 = arg1 + ' and ' + arg2;
+    callback(null, arg3);
+  },
+  function(arg1, callback) {
+                                                  // arg1 now equals 'Task1 and Task2'
+    arg1 += ' completed';
+    callback(null, arg1);
+  }
+], function(err, result) {                        // result now equals to 'Task1 and Task2 completed'
+  console.log(result);
+});
+
+// 2 , with named functions
+async.waterfall([
+  myFirstFunction,
+  mySecondFunction,
+  myLastFunction,
+], function(err, result) {                       // result now equals 'Task1 and Task2 completed'
+  console.log(result);
+});
+
+function myFirstFunction(callback) {
+  callback(null, 'Task 1', 'Task 2');
+}
+function mySecondFunction(arg1, arg2, callback) {
+                                                // arg1 now equals 'Task 1' and arg2 now equals 'Task 2'
+  let arg3 = arg1 + ' and ' + arg2;
+  callback(null, arg3);
+}
+function myLastFunction(arg1, callback) {
+                                                // arg1 now equals 'Task1 and Task2'
+  arg1 += ' completed';
+  callback(null, arg1);
+}
+
+
+4. Async.queue
+---------------
+When we need to run a set of tasks asynchronously, a queue can be used.
+A queue object based on an asynchronous function can be created which is passed as a worker.
+
+  Syntax      : async.queue(task, concurrency)
+> task        : Here, it takes two parameters, first — the task to be performed and second — the callback function.
+> concurrency : It is the number of functions to be run in parallel.
+
+  async.queue returns a queue object that supports few properties:
+   > push    : Adds tasks to the queue to be processed.
+   > drain   : The drain function is called after the last task of the queue.
+   > unshift : Adds tasks in front of the queue.
+   
+Example:
+// 1
+                                                    // create a queue object with concurrency 2
+var q = async.queue(function(task, callback) {
+  console.log('Hello ' + task.name);
+  callback();
+}, 2);
+
+                                                    // assign a callback
+q.drain = function() {
+  console.log('All items have been processed');
+};
+
+                                                   // add some items to the queue
+q.push({name: 'foo'}, function(err) {
+  console.log('Finished processing foo');
+});
+
+q.push({name: 'bar'}, function (err) {
+  console.log('Finished processing bar');
+});
+
+                                                 // add some items to the queue (batch-wise)
+q.push([{name: 'baz'},{name: 'bay'},{name: 'bax'}], function(err) {
+  console.log('Finished processing item');
+});
+
+                                                // add some items to the front of the queue
+q.unshift({name: 'bar'}, function (err) {
+  console.log('Finished processing bar');
+});
+
+
+5. Async.priorityQueue
+-----------------------
+It is the same as the queue,
+the only difference being that a PRIORITY can be assigned to the tasks which are considered in ascending order.
+
+   Syntax : async.priorityQueue(task,concurrency)
+ > task   : it takes three parameters:
+           the task to be performed,
+           priority,
+             (it is a number that determines the sequence of execution. 
+              For an array of tasks, the priority remains the same for all of them.)
+           callback function
+           
+NOTE : The async.priorityQueue does not support ‘unshift’ property of the queue.
+
+Example:
+                                                       // create a queue object with concurrency 1
+var q = async.priorityQueue(function(task, callback) {
+  console.log('Hello ' + task.name);
+  callback();
+}, 1);
+
+                                                      // assign a callback
+q.drain = function() {
+  console.log('All items have been processed');
+};
+
+                                                    // add some items to the queue with priority
+q.push({name: 'foo'}, 3, function(err) {
+  console.log('Finished processing foo');
+});
+
+q.push({name: 'bar'}, 2, function (err) {
+  console.log('Finished processing bar');
+});
+
+                                                 // add some items to the queue (batch-wise) which will have same priority
+q.push([{name: 'baz'},{name: 'bay'},{name: 'bax'}], 1, function(err) {
+  console.log('Finished processing item');
+});
+
+
+6. Async.race
+--------------
+It runs all the tasks in parallel, 
+but as soon as any of the function completes its execution or passes an error to its callback, 
+the main callback is immediately called.
+
+  Syntax   : async.race(tasks, callback)
+ > task    : Here, it is a collection of functions to run. It is an array or any iterable.
+ > callback: The result of the first complete execution is passed. It may be the result or error.
+ 
+Example:
+async.race([
+  function (callback) {
+    setTimeout(function () {
+      callback(null, 'one');
+    }, 300);
+  },
+  function (callback) {
+    setTimeout(function () {
+      callback(null, 'two');
+    }, 100);
+  },
+  function (callback) {
+    setTimeout(function () {
+      callback(null, 'three');
+    }, 200);
+  }
+],
+                                                 // main callback
+  function (err, result) {               // the result will be equal to 'two' as it finishes earlier than the other 2
+    console.log('The result is ', result);
+  });
+  
+  
+NOTE : Combining Async Flows
+-----------------------------
+Yes, it's possible. the async flows like parallel and series can be combined and nested.
+
+
 
 MODULES
 --------
