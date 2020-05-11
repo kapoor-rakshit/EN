@@ -483,8 +483,52 @@ HTTP SERVER
 ...  route files added under routes folder
 
 .. Dynamic routing
-...  using PARAMS    /:id
-...  using QUERY     /?id=112&name=ra20024024                    // NOTE : use of ?
+   - 1. PATH PARAMS
+     - marked with colon (:)
+     - read using `req.params.PARAM`
+     - Example
+       router.get('/user/:PARAM', function (req, res) {
+          console.log(req.params.PARAM);
+       })
+       
+   - 2. QUERY PARAMS
+     - read using `req.query.QPARAM`
+     - Example
+       // GET REQUEST  ==> /user?order=desc+order&shoe[color]=blue&shoe[type]=converse
+       router.get('/user', function (req, res) {
+          console.log(req.query.order);               // "desc order"
+          console.log(req.query.shoe.type);           // "converse"
+       })
+       
+   - 3. HTTP HEADER
+     - read using `req.get(field)`  OR  `req.header(field)`    with case-insensitive match.
+     - sent using `res.set(field, value | [value1, value2])`  OR  res.header(field, value | [value1, value2])  OR  `res.append(field, value | [value1, value2])`
+       NOTE : res.set()  OR  res.header() will reset the previously-set header value.
+              res.append() will append specified value to HTTP response header field. 
+              If the header is not already set, it creates the header with the specified value.
+     - Example
+       router.get('/user', function (req, res) {
+          console.log(req.get('Content-Type'));           // "text/plain"
+          console.log(req.get('content-type'));           // "text/plain"
+          
+          res.set({
+           'Content-Type': 'text/plain',
+           'Content-Length': '123'
+          });
+          res.append('Warning', '199 Miscellaneous warning');
+          res.append('Link', ['<http://localhost/>', '<http://localhost:3000/>']);
+       })
+   
+   - 4. HTTP BODY
+     - read using `req.body.KEY`
+     - sent using `res.json(HTTP_BODY)`  OR  `res.send(HTTP_BODY)`
+     - Example
+       router.post('/profile', function (req, res, next) {
+          console.log(req.body.KEY);
+          
+          res.json({username: 'kapoor-rakshit', github: 'yes'});
+       })
+       
 
 .. ENV CONFIG
 ...  variables inited during run for program to behave accordingly.
