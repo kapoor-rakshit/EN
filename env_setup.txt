@@ -5,8 +5,10 @@ For SETUP refer "SetUpinstructions.docx"
 
 
 NOTE :  AngularJS is for building CLIENT-side web applications
-----    NodeJs is used to build SERVER-side applications
-        expressJs is a NodeJs framework to build websites / web services using principles and approaches of node.js.
+----    NodeJs is an open-source, cross-platform, back-end, JavaScript runtime environment that executes JavaScript code outside a web browser.
+        NodeJs is used to build SERVER-side applications
+        ExpressJs is a back end web application framework for NodeJs framework using principles and approaches of nodejs.
+        It is designed for building web applications and APIs.
         
         
         
